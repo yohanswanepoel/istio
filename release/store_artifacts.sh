@@ -101,7 +101,7 @@ function docker_tag_images() {
   local DST_HUB
   DST_HUB=$1
   local DST_TAG
-  DST_HUB=$2
+  DST_TAG=$2
   local SRC_HUB
   SRC_HUB=$3
   local SRC_TAG
