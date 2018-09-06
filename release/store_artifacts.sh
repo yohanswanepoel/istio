@@ -127,7 +127,7 @@ function docker_push_images() {
   local DST_HUB
   DST_HUB=$1
   local DST_TAG
-  DST_HUB=$2
+  DST_TAG=$2
   echo "pushing to ${DST_HUB}/image:${DST_TAG}"
 
   for TAR_PATH in "${OUTPUT_PATH}"/docker/*.tar.gz; do
