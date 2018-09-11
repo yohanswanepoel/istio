@@ -68,7 +68,6 @@ function docker_tag_images() {
     SRC_HUB=$(echo "$DOCKER_OUT" | cut -f 2 -d : | xargs dirname)
     SRC_TAG=$(echo "$DOCKER_OUT" | cut -f 3 -d :)
 
-    echo DOCKER_SRC is "$DOCKER_SRC"
     docker tag     "${SRC_HUB}/${IMAGE_NAME}:${SRC_TAG}" \
                    "${DST_HUB}/${IMAGE_NAME}:${DST_TAG}"
   done
