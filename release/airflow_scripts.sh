@@ -65,7 +65,7 @@ function modify_values_command() {
     chmod u+x modify_values.sh
     echo "PIPELINE TYPE is $PIPELINE_TYPE"
     if [ "$PIPELINE_TYPE" = "daily" ]; then
-        hub="gcr.io/$GCR_STAGING_DEST"
+        hub="$DOCKER_HUB"
     elif [ "$PIPELINE_TYPE" = "monthly" ]; then
         hub="docker.io/istio"
     fi

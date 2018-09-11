@@ -15,7 +15,7 @@ while getopts h:t:p:v: arg ; do
   esac
 done
 
-function fix_values_yaml() {
+function fix_values_yaml_worker() {
   local unzip_cmd
   unzip_cmd="$1"
   local zip_cmd
@@ -24,8 +24,12 @@ function fix_values_yaml() {
   folder_name="$3"
   local tarball_name
   tarball_name="$4"
+  local gcs_folder_path
+  gcs_folder_path="$5"
 
-  gsutil -q cp "${GCS_PATH}/${tarball_name}" .
+  gsutil -q cp "${gcs_folder_path}/${tarball_name}" . || return
+  echo "fixing  ${gcs_folder_path}/${tarball_name} with hub: ${HUB} tag: ${TAG}"
+
   eval    "$unzip_cmd"     "${tarball_name}"
   rm                       "${tarball_name}"
 
@@ -35,9 +39,15 @@ function fix_values_yaml() {
   eval "$zip_cmd" "${tarball_name}" "${folder_name}"
   rm -rf                            "${folder_name}"
 
-  gsutil cp "${tarball_name}" "${GCS_PATH}/${tarball_name}"
-  gsutil cp "${tarball_name}" "${GCS_PATH}/docker.io/${tarball_name}"
-  gsutil cp "${tarball_name}" "${GCS_PATH}/gcr.io/${tarball_name}"
+  gsutil cp "${tarball_name}" "${gcs_folder_path}/${tarball_name}"
+
+  echo "DONE fixing  ${gcs_folder_path}/${tarball_name} with hub: ${HUB} tag: ${TAG}"
+}
+
+function fix_values_yaml() {
+  fix_values_yaml_worker "$1" "$2" "$3" "$4" "${GCS_PATH}"
+  fix_values_yaml_worker "$1" "$2" "$3" "$4" "${GCS_PATH}/docker.io"
+  fix_values_yaml_worker "$1" "$2" "$3" "$4" "${GCS_PATH}/gcr.io"
 }
 
 rm -rf modification-tmp

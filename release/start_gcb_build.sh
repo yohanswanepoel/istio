@@ -33,11 +33,12 @@ SUBS_FILE="$(mktemp /tmp/build.subs.XXXX)"
 VER_STRING="0.0.0"
 WAIT_FOR_RESULT="false"
 
-GCR_PATH=""
+DOCKER_HUB=""
 GCS_PATH=""
 
 function usage() {
   echo "$0
+    -h <name> hub for artifacts(e.g. gcr.io/istio-testing)      (required)
     -k <file> path to key file for service account              (optional)
     -v <ver>  version string                                    (optional, defaults to $VER_STRING )
     -w        specify that script should wait until build done  (optional)
@@ -47,8 +48,9 @@ function usage() {
   exit 1
 }
 
-while getopts k:r:s:v:w arg ; do
+while getopts h:k:r:s:v:w arg ; do
   case "${arg}" in
+    h) DOCKER_HUB="${OPTARG}";;
     k) KEY_FILE_PATH="${OPTARG}";;
     r) GCR_PATH="${OPTARG}";;
     s) GCS_PATH="${OPTARG}";;
@@ -59,6 +61,7 @@ while getopts k:r:s:v:w arg ; do
 done
 
 [[ -z "${BRANCH}"     ]] && usage
+[[ -z "${DOCKER_HUB}" ]] && usage
 [[ -z "${PROJECT_ID}" ]] && usage
 [[ -z "${VER_STRING}" ]] && usage
 
@@ -76,6 +79,7 @@ fi
 cat << EOF > "${SUBS_FILE}"
   "substitutions": {
     "_BRANCH": "${BRANCH}",
+    "_DOCKER_HUB": "${DOCKER_HUB}",
     "_VER_STRING": "${VER_STRING}",
     "_GCS_PATH": "${GCS_PATH}",
     "_GCS_RELEASE_TOOLS_PATH": "${GCS_RELEASE_TOOLS_PATH}",
