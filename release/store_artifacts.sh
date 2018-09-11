@@ -75,21 +75,8 @@ SCRIPTPATH=$( cd "$(dirname "$0")" ; pwd -P )
 source "${SCRIPTPATH}/docker_tag_push_lib.sh"
 
 if [[ "${PUSH_DOCKER}" == "true" ]]; then
-  add_license_to_tar_images "${DOCKER_HUB}" "${VER_STRING}"         "${OUTPUT_PATH}"
-
-  docker_tag_images  "docker.io/testistio" "${VER_STRING}"          "${OUTPUT_PATH}"
-  docker_tag_images  "docker.io/testistio" "${BRANCH}-latest-daily" "${OUTPUT_PATH}"
-  docker_tag_images  "${GCR_PATH}"         "${BRANCH}-latest-daily" "${OUTPUT_PATH}"
-
-  add_docker_creds   "${DOCKER_HUB}"
-  docker_push_images "${DOCKER_HUB}"       "${VER_STRING}"
-
-  add_docker_creds   "docker.io/testistio"
-  docker_push_images "docker.io/testistio" "${VER_STRING}"
-  docker_push_images "docker.io/testistio" "${BRANCH}-latest-daily"
-
-  add_docker_creds   "${GCR_PATH}"
-  docker_push_images "${GCR_PATH}"         "${BRANCH}-latest-daily"
+  add_license_to_tar_images "${DOCKER_HUB}" "${VER_STRING}" "${OUTPUT_PATH}"
+  docker_push_images        "${DOCKER_HUB}" "${VER_STRING}" "${OUTPUT_PATH}"
 fi
 
 # preserve the source from the root of the code

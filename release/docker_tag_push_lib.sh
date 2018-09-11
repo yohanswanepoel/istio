@@ -20,6 +20,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   exit 4
 fi
 
+if [[ -z "$(command -v docker)" ]]; then
+    echo "Could not find 'docker' in path"
+    exit 1
+fi
+
 function add_license_to_tar_images() {
   local HUB
   HUB="$1"
