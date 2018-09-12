@@ -81,6 +81,6 @@ fi
 
 # preserve the source from the root of the code
 pushd "${ROOT}/../../../.."
-tar -cvzf "${OUTPUT_PATH}/source.tar.gz" . --exclude go/out
+tar -czf "${OUTPUT_PATH}/source.tar.gz" go src --exclude go/out
 popd
 gsutil -m cp -r "${OUTPUT_PATH}"/* "${GCS_PATH}/"
