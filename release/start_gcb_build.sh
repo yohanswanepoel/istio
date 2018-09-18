@@ -33,12 +33,10 @@ SUBS_FILE="$(mktemp /tmp/build.subs.XXXX)"
 VER_STRING="0.0.0"
 WAIT_FOR_RESULT="false"
 
-DOCKER_HUB=""
 GCS_PATH=""
 
 function usage() {
-  echo "$0
-    -h <name> hub for artifacts(e.g. gcr.io/istio-testing)      (required)
+  echo "$0 $1 required
     -k <file> path to key file for service account              (optional)
     -v <ver>  version string                                    (optional, defaults to $VER_STRING )
     -w        specify that script should wait until build done  (optional)
@@ -50,7 +48,6 @@ function usage() {
 
 while getopts h:k:r:s:v:w arg ; do
   case "${arg}" in
-    h) DOCKER_HUB="${OPTARG}";;
     k) KEY_FILE_PATH="${OPTARG}";;
     r) GCR_PATH="${OPTARG}";;
     s) GCS_PATH="${OPTARG}";;
@@ -60,14 +57,14 @@ while getopts h:k:r:s:v:w arg ; do
   esac
 done
 
-[[ -z "${BRANCH}"     ]] && usage
-[[ -z "${DOCKER_HUB}" ]] && usage
-[[ -z "${PROJECT_ID}" ]] && usage
-[[ -z "${VER_STRING}" ]] && usage
+[[ -z "${BRANCH}"     ]] && usage "BRANCH"
+[[ -z "${DOCKER_HUB}" ]] && usage "DOCKER_HUB"
+[[ -z "${PROJECT_ID}" ]] && usage "PROJECT_ID"
+[[ -z "${VER_STRING}" ]] && usage "VER_STRING"
 
-[[ -z "${GCS_PATH}" ]] && usage
-[[ -z "${GCR_PATH}" ]] && usage
-[[ -z "${GCS_RELEASE_TOOLS_PATH}" ]] && usage
+[[ -z "${GCS_PATH}" ]] && usage "GCS_PATH"
+[[ -z "${GCR_PATH}" ]] && usage "GCR_PATH"
+[[ -z "${GCS_RELEASE_TOOLS_PATH}" ]] && usage "GCS_RELEASE_TOOLS_PATH"
 
 DEFAULT_SVC_ACCT="cloudbuild@${PROJECT_ID}.iam.gserviceaccount.com"
 
