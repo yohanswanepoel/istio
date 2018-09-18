@@ -41,15 +41,13 @@ function usage() {
     -v <ver>  version string                                    (optional, defaults to $VER_STRING )
     -w        specify that script should wait until build done  (optional)
 
-    -r <name> GCR bucket/path to store build artifacts          (required)
     -s <name> GCS bucket/path to store build artifacts          (required)"
   exit 1
 }
 
-while getopts h:k:r:s:v:w arg ; do
+while getopts k:s:v:w arg ; do
   case "${arg}" in
     k) KEY_FILE_PATH="${OPTARG}";;
-    r) GCR_PATH="${OPTARG}";;
     s) GCS_PATH="${OPTARG}";;
     v) VER_STRING="${OPTARG}";;
     w) WAIT_FOR_RESULT="true";;
@@ -79,8 +77,7 @@ cat << EOF > "${SUBS_FILE}"
     "_DOCKER_HUB": "${DOCKER_HUB}",
     "_VER_STRING": "${VER_STRING}",
     "_GCS_PATH": "${GCS_PATH}",
-    "_GCS_RELEASE_TOOLS_PATH": "${GCS_RELEASE_TOOLS_PATH}",
-    "_GCR_PATH": "${GCR_PATH}"
+    "_GCS_RELEASE_TOOLS_PATH": "${GCS_RELEASE_TOOLS_PATH}"
   }
 EOF
 
