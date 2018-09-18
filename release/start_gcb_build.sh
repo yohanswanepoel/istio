@@ -61,7 +61,6 @@ done
 [[ -z "${VER_STRING}" ]] && usage "VER_STRING"
 
 [[ -z "${GCS_PATH}" ]] && usage "GCS_PATH"
-[[ -z "${GCR_PATH}" ]] && usage "GCR_PATH"
 [[ -z "${GCS_RELEASE_TOOLS_PATH}" ]] && usage "GCS_RELEASE_TOOLS_PATH"
 
 DEFAULT_SVC_ACCT="cloudbuild@${PROJECT_ID}.iam.gserviceaccount.com"
