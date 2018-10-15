@@ -35,7 +35,7 @@ function usage() {
   exit 1
 }
 
-while getopts h:p:v: arg ; do
+while getopts h:t: arg ; do
   case "${arg}" in
     h) DOCKER_HUBS="${OPTARG}";;
     t) TAG="${OPTARG}";;
